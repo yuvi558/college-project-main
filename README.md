@@ -35,8 +35,8 @@ To get started with the Customer Churn Dashboard, follow these steps:
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/bilal-codespace/College_Project.git
-   cd customer-churn-dashboard
+   git clone https://github.com/yuvi558/college-project-main.git
+   cd college-project-main
    ```
 
 2. **Create a Virtual Environment**:
@@ -57,7 +57,7 @@ To get started with the Customer Churn Dashboard, follow these steps:
    ```
 
 5. **Access the Dashboard**:
-   Open your web browser and navigate to `http://127.0.0.1:5000`.
+   Open your web browser and navigate to `[http://localhost:5000/]`.
 
 ## Usage
 
