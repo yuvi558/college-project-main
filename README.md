@@ -1,20 +1,32 @@
 ⚙️ Installation & Setup
+
+
 1️⃣ Clone the Repository
   `git clone https://github.com/yuvi558/college-project-main.git`
   `cd college-project-main`
+
+  
 2️⃣ Create a Virtual Environment
 Windows
   `python -m venv venv`
   `venv\Scripts\activate`
 Linux / macOS
  `python3 -m venv venv`
- source `venv/bin/activate` 
+ source `venv/bin/activate`
+
+ 
 3️⃣ Install Dependencies
  `pip install -r requirements.txt`
+
+ 
 4️⃣ Run the Application
   `python app.py`
+
+  
 5️⃣ Open in Browser
   `http://127.0.0.1:5000`
+
+  
 🚀 Deployment (Render)
 
 This project is deployed on Render.
