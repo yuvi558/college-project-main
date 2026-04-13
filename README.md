@@ -1,72 +1,85 @@
-# Customer Churn Dashboard 📊🤖
+⚙️ Installation & Setup
+1️⃣ Clone the Repository
+  `git clone https://github.com/yuvi558/college-project-main.git`
+  `cd college-project-main`
+2️⃣ Create a Virtual Environment
+Windows
+  `python -m venv venv`
+  `venv\Scripts\activate`
+Linux / macOS
+ `python3 -m venv venv`
+ source `venv/bin/activate` 
+3️⃣ Install Dependencies
+ `pip install -r requirements.txt`
+4️⃣ Run the Application
+  `python app.py`
+5️⃣ Open in Browser
+  `http://127.0.0.1:5000`
+🚀 Deployment (Render)
 
-Welcome to the **Customer Churn Dashboard**! This project provides a powerful web application built with Flask that helps businesses predict customer churn. By analyzing data and employing machine learning techniques, it enables companies to retain customers and boost revenue. Additionally, it features an AI chatbot to enhance user interaction and support.
+This project is deployed on Render.
 
-## Table of Contents
+Render Configuration
+Build Command
+pip install -r requirements.txt
+Start Command
+gunicorn app:app
+Live Deployment Link
 
-- [Features](#features)
-- [Technologies Used](#technologies-used)
-- [Installation](#installation)
-- [Usage](#usage)
+🔗 https://college-project-main-6sht.onrender.com
 
+📊 How to Use
 
-## Features
+Once the application is running:
 
-- **Churn Prediction**: Utilizes machine learning algorithms to predict which customers are likely to leave.
-- **AI Chatbot**: Engages users in conversation, providing assistance and insights.
-- **Data Visualization**: Presents key metrics in an easy-to-understand dashboard format.
-- **User-Friendly Interface**: Built with Bootstrap for a responsive design.
-- **Real-Time Analysis**: Provides instant feedback based on the latest data inputs.
+Upload a CSV dataset
+Upload customer data using the file upload feature
+View churn analysis
+Dashboard displays churn rate, model results, and insights
+Analyze charts
+Review graphs for churn distribution and customer trends
+Check revenue loss
+Enter current revenue to estimate monthly/yearly losses
+Use chatbot
+Ask natural language questions about churn, revenue, and recommendations
+Download PDF report
+Export analysis report for submission, presentation, or documentation
+📌 Example Use Cases
+Academic mini / major project demonstration
+Machine learning portfolio project
+Customer retention business analytics demo
+Final year college project presentation
+Data science + Flask deployment showcase
+🔐 Notes
+Free Render instances may sleep due to inactivity
+First request after inactivity may take 30–50 seconds
+This is normal behavior on the free plan
+👨‍💻 Author
 
-## Technologies Used
+Yuvraj Singh
+📌 GitHub: yuvi558
 
-This project leverages several technologies to deliver a seamless experience:
+📌 Repository: college-project-main
 
-- **Flask**: A lightweight web framework for Python.
-- **Python**: The programming language used for backend development.
-- **Scikit-learn**: A machine learning library for Python, used for predictive modeling.
-- **Bootstrap**: A CSS framework for responsive web design.
-- **Data Analysis Libraries**: Pandas and NumPy for data manipulation and analysis.
-- **Database**: SQLite or PostgreSQL for storing customer data.
+📌 Live App: Customer Churn Dashboard
 
-## Installation
+📚 Learning Highlights
 
-To get started with the Customer Churn Dashboard, follow these steps:
+This project demonstrates practical knowledge of:
 
-1. **Clone the Repository**:
-   ```bash
-   git clone https://github.com/yuvi558/college-project-main.git
-   cd college-project-main
-   ```
+Flask web development
+Machine learning integration in web apps
+Data preprocessing and cleaning
+Model training and evaluation
+Visualization dashboards
+API route handling
+PDF report generation
+Git & GitHub version control
+Cloud deployment using Render
+📄 License
 
-2. **Create a Virtual Environment**:
-   ```bash
-   python -m venv venv
-   source venv/bin/activate 
-   On Windows use `venv\Scripts\activate`
-   ```
+This project is created for educational, academic, and portfolio purposes.
 
-3. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+🙌 Acknowledgement
 
-4. **Run the Application**:
-   ```bash
-   python app.py
-   ```
-
-5. **Access the Dashboard**:
-   Open your web browser and navigate to `[http://127.0.0.1:5000]`.
-
-## Usage
-
-Once the application is running, you can interact with the dashboard as follows:
-
-- **Upload Data**: Use the upload feature to import customer data.
-- **View Predictions**: The dashboard will display predictions on customer churn based on the uploaded data.
-- **Engage with the Chatbot**: Click on the chatbot icon to start a conversation and get insights.
-
-
-
-Thank you for your interest in the Customer Churn Dashboard! Together, we can help businesses keep their customers happy and engaged.
+This project has been customized, improved, deployed, and maintained by Yuvraj for learning, portfolio building, and academic project submission.
