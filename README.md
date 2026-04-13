@@ -57,7 +57,7 @@ To get started with the Customer Churn Dashboard, follow these steps:
    ```
 
 5. **Access the Dashboard**:
-   Open your web browser and navigate to `[http://localhost:5000/]`.
+   Open your web browser and navigate to `[http://127.0.0.1:5000]`.
 
 ## Usage
 
