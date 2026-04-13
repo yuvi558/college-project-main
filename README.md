@@ -1,3 +1,9 @@
+Customer Churn Dashboard 📊🤖
+
+
+Welcome to the Customer Churn Dashboard! This project provides a powerful web application built with Flask that helps businesses predict customer churn. By analyzing data and employing machine learning techniques, it enables companies to retain customers and boost revenue. Additionally, it features an AI chatbot to enhance user interaction and support.
+
+
 ⚙️ Installation & Setup
 
 
