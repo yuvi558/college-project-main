@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Churn Dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/static/images/favicon.ico">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Bootstrap Datepicker -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #64748b;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-main: #f8fafc;
+            --bg-white: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .top-header {
+            background: var(--bg-white);
+            border-bottom: 1px solid var(--border);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo i {
+            font-size: 1.75rem;
+        }
+
+        /* Main Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-hero {
+            background: white;
+            color: var(--primary);
+            padding: 0.75rem 2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Cards */
+        .simple-card {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card-title i {
+            color: var(--primary);
+        }
+
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .form-text {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .metric-box {
+            background: var(--bg-white);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .metric-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .metric-danger { color: var(--danger); }
+        .metric-success { color: var(--success); }
+        .metric-warning { color: var(--warning); }
+        .metric-primary { color: var(--primary); }
+
+        /* Chart Container */
+        .chart-box {
+            background: var(--bg-white);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
+
+        .chart-box img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Quick Questions */
+        .quick-questions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quick-btn {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-dark);
+        }
+
+        .quick-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        /* Chat */
+        .chat-container {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: var(--bg-main);
+            border-radius: 8px;
+        }
+
+        .chat-message {
+            margin-bottom: 1rem;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            max-width: 80%;
+        }
+
+        .chat-user {
+            background: var(--primary);
+            color: white;
+            margin-left: auto;
+        }
+
+        .chat-bot {
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+        }
+
+        .chat-input-group {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input-group input {
+            flex: 1;
+        }
+
+        /* Status Messages */
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        .alert-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        /* Grid Layout */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            color: var(--text-muted);
+            margin-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Floating Chat Button */
+        .chat-float {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: transform 0.2s;
+            z-index: 999;
+        }
+
+        .chat-float:hover {
+            transform: scale(1.1);
+        }
+
+        /* Back to Top */
+        .back-top {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--bg-white);
+            border: 1px solid var(--border);
+            color: var(--text-dark);
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s;
+            z-index: 999;
+        }
+
+        .back-top:hover {
+            transform: translateY(-3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .metrics-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .top-header nav {
+                display: none !important;
+            }
+
+            .logo {
+                font-size: 1.25rem;
+            }
+        }
+
+        /* Hidden sections - make it overridable */
+        .hidden {
+            display: none;
+        }
+
+        .show {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="top-header">
+        <div class="main-container" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="#" class="logo">
+                <i class="fas fa-chart-line"></i>
+                Churn Dashboard
+            </a>
+            <nav style="display: flex; gap: 2rem;">
+                <a href="#upload-section" style="color: var(--text-dark); text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dark)'">Dashboard</a>
+                <a href="#insights" style="color: var(--text-dark); text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dark)'">Insights</a>
+                <a href="#contact" style="color: var(--text-dark); text-decoration: none; font-weight: 500; transition: color 0.2s;" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-dark)'">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Hero Section -->
+        <div class="hero">
+            <h1>Customer Churn Analytics</h1>
+            <p>Predict and prevent customer churn with AI-powered insights</p>
+            <button class="btn-hero" onclick="document.getElementById('upload-section').scrollIntoView({behavior: 'smooth'})">
+                <i class="fas fa-rocket"></i> Get Started
+            </button>
+        </div>
+
+        <!-- Upload Section -->
+        <section id="upload-section">
+            <div class="simple-card">
+                <h3 class="card-title">
+                    <i class="fas fa-upload"></i>
+                    Upload Customer Data
+                </h3>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label class="form-label">CSV File</label>
+                        <input class="form-control" type="file" id="csvFile" accept=".csv">
+                        <small class="form-text">Upload a CSV file with a 'Churn' column</small>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Current Monthly Revenue (₹)</label>
+                        <input class="form-control" type="number" id="currentRevenue" placeholder="e.g., 500000">
+                        <small class="form-text">Used to calculate revenue at risk</small>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-chart-bar"></i>
+                        Analyze Data
+                    </button>
+                </form>
+                <div id="upload-status" class="mt-3"></div>
+            </div>
+        </section>
+
+        
+
+        <!-- Data Summary (Hidden by default) -->
+        <section id="data-summary-section" class="hidden">
+            <div class="simple-card">
+                <h3 class="card-title">
+                    <i class="fas fa-database"></i>
+                    Dataset Overview
+                </h3>
+                <div class="metrics-grid">
+                    <div class="metric-box">
+                        <div class="metric-value metric-primary" id="total-customers">0</div>
+                        <div class="metric-label">Total Customers</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value metric-primary" id="total-columns">0</div>
+                        <div class="metric-label">Attributes</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value metric-warning" id="total-missing">0</div>
+                        <div class="metric-label">Missing Values</div>
+                    </div>
+                    <div class="metric-box">
+                        <div class="metric-value metric-success" id="data-quality">0%</div>
+                        <div class="metric-label">Data Quality</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chatbot Section -->
+        <section id="chatbot-section">
+            <div class="simple-card">
+                <h3 class="card-title">
+                    <i class="fas fa-robot"></i>
+                    Churn Assistant
+                </h3>
+                <div class="quick-questions">
+                    <button class="quick-btn" data-question="What is the current churn rate?">Churn Rate</button>
+                    <button class="quick-btn" data-question="How does churn affect revenue?">Revenue Impact</button>
+                    <button class="quick-btn" data-question="What are the top reasons for churn?">Top Reasons</button>
+                    <button class="quick-btn" data-question="What can we do to reduce churn?">Recommendations</button>
+                    <button class="quick-btn" data-question="How accurate is the churn prediction model?">Model Accuracy</button>
+                </div>
+                <div id="chatbot-messages" class="chat-container"></div>
+                <div class="chat-input-group">
+                    <input type="text" id="chat-input" class="form-control" placeholder="Ask about churn trends...">
+                    <button id="chat-submit" class="btn-primary">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Retention Simulator (Hidden by default) -->
+        <section id="retention-simulator-section" class="hidden">
+            <div class="simple-card">
+                <h3 class="card-title">
+                    <i class="fas fa-shield-alt"></i>
+                    Retention Strategy Simulator
+                </h3>
+                <form id="retentionSimulatorForm">
+                    <div class="form-group">
+                        <label class="form-label">Target Churn Reduction (%)</label>
+                        <input type="number" class="form-control" id="churn-reduction" placeholder="e.g., 20">
+                        <small class="form-text">Simulate impact of reducing churn</small>
+                    </div>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-calculator"></i>
+                        Calculate Impact
+                    </button>
+                </form>
+                <div id="retention-result" class="mt-3"></div>
+            </div>
+        </section>
+
+        <!-- Download Report (Hidden by default) -->
+        <section id="download-report-section" class="hidden">
+            <div class="simple-card">
+                <h3 class="card-title">
+                    <i class="fas fa-file-pdf"></i>
+                    Export Report
+                </h3>
+                <p class="mb-3">Download a comprehensive PDF report of your analysis</p>
+                <a href="/download_report" class="btn-primary">
+                    <i class="fas fa-download"></i>
+                    Download PDF Report
+                </a>
+            </div>
+        </section>
+
+        <!-- Insights Section (Hidden by default) -->
+        <section id="insights" class="hidden">
+            <h2 style="font-size: 1.75rem; font-weight: 700; margin-bottom: 1.5rem;">Key Insights</h2>
+            <div id="insights-warnings"></div>
+
+            <!-- Key Metrics -->
+            <div class="metrics-grid">
+                <div class="metric-box">
+                    <div class="metric-value metric-danger" id="churn-rate">0%</div>
+                    <div class="metric-label">Churn Rate</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value metric-success" id="model-accuracy">0%</div>
+                    <div class="metric-label">Model Accuracy</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value metric-warning" id="monthly-loss">₹0</div>
+                    <div class="metric-label">Monthly Loss</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value metric-danger" id="yearly-loss">₹0</div>
+                    <div class="metric-label">Annual Loss</div>
+                </div>
+            </div>
+
+            <!-- Charts Grid -->
+            <div class="grid-2">
+                <div class="chart-box">
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Churn Distribution</h4>
+                    <div id="churn-distribution"></div>
+                </div>
+                <div class="chart-box">
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Tenure vs Churn</h4>
+                    <div id="tenure-chart"></div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="chart-box">
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Monthly Charges vs Churn</h4>
+                    <div id="charges-chart"></div>
+                </div>
+                <div class="chart-box">
+                    <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Contract Type vs Churn</h4>
+                    <div id="contract-chart"></div>
+                </div>
+            </div>
+
+            
+
+            <div class="chart-box">
+                <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem;">Churn Rate Over Time</h4>
+                <div id="churn-over-time"></div>
+            </div>
+        </section>
+
+        <!-- Segmentation (Hidden by default) -->
+        <section id="segmentation-section" class="hidden">
+            <div class="simple-card">
+                <h3 class="card-title">
+                    <i class="fas fa-users"></i>
+                    Customer Segmentation
+                </h3>
+                <div id="segmentation-content"></div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Floating Chat Button -->
+    <div class="chat-float" onclick="document.getElementById('chatbot-section').scrollIntoView({behavior: 'smooth'})">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <!-- Back to Top -->
+    <a href="#" class="back-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- Footer -->
+    <footer class="footer" id="contact">
+        <p>© 2026 Customer Churn Dashboard</p>
+    </footer>
+
+    <!-- JavaScript Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="static/js/script.js"></script>
+
+    <script>
+        // Back to top button
+        window.onscroll = function() {
+            const backToTop = document.getElementById('back-to-top');
+            if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        };
+
+        document.getElementById('back-to-top').addEventListener('click', function(e) {
+            e.preventDefault();
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        });
+
+        // Quick question buttons
+        document.querySelectorAll('.quick-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const question = this.getAttribute('data-question');
+                document.getElementById('chat-input').value = question;
+                document.getElementById('chat-submit').click();
+            });
+        });
+
+        // Helper function to show hidden sections (fallback if script.js doesn't do it)
+        window.showSection = function(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.remove('hidden');
+                section.style.display = 'block';
+            }
+        };
+
+        // Monitor for upload success and auto-show insights
+        const observer = new MutationObserver(function(mutations) {
+            mutations.forEach(function(mutation) {
+                if (mutation.target.id === 'upload-status') {
+                    const statusText = mutation.target.textContent;
+                    if (statusText.includes('complete') || statusText.includes('success')) {
+                        // Show all relevant sections
+                        showSection('insights');
+                        showSection('data-summary-section');
+                        showSection('date-filter-section');
+                        showSection('download-report-section');
+                        showSection('retention-simulator-section');
+                        showSection('segmentation-section');
+                    }
+                }
+            });
+        });
+
+        // Observe the upload status div for changes
+        const uploadStatus = document.getElementById('upload-status');
+        if (uploadStatus) {
+            observer.observe(uploadStatus, { childList: true, subtree: true, characterData: true });
+        }
+    </script>
+</body>
+</html>

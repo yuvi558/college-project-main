@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+*.pyc
+tmp/
+.env
+.ipynb_checkpoints/
+Sample_dataset*.csv
